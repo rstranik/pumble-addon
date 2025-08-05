@@ -5,9 +5,12 @@ const API_KEY = process.env.PUMBLE_API_KEY;
 const BASE    = 'https://pumble-api-keys.addons.marketplace.cake.com';
 
 module.exports = async (req, res) => {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
+  if (req.method !== 'POST' && req.method !== 'GET') {
+  res.setHeader('Allow', ['POST', 'GET']);
+  return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-  const { fileId } = req.body;
+  const fileId = req.method === 'GET' ? req.query.fileId : req.body.fileId;
   if (!fileId)      return res.status(400).json({ error: 'fileId required' });
   if (!API_KEY)     return res.status(500).json({ error: 'PUMBLE_API_KEY missing' });
 

@@ -1,0 +1,5 @@
+{
+  "version": 2,
+  "builds": [{ "src": "pumble-make-public.ts", "use": "@vercel/node" }],
+  "routes": [{ "src": "/(.*)", "dest": "/pumble-make-public.ts" }]
+}
